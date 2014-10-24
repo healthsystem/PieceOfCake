@@ -2,8 +2,6 @@
 #pragma config(Sensor, S3,     IRseeker,       sensorI2CCustom)
 #pragma config(Motor,  mtr_S1_C1_1,     motorR,        tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     motorL,        tmotorTetrix, PIDControl, reversed, encoder)
-#pragma config(Motor,  mtr_S1_C2_1,     motorF,        tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S1_C2_2,     motorG,        tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S1_C3_1,    servoFlip,            tServoStandard)
 #pragma config(Servo,  srvo_S1_C3_2,    servo2,               tServoNone)
 #pragma config(Servo,  srvo_S1_C3_3,    servo3,               tServoNone)
@@ -64,7 +62,7 @@ void Turn90(string direction);
 void ResetEncoders();
 void StopMotors();
 void PointTurn(string direction);
-
+void Move60inches(string direction);
 /*-----------------------------------------------------------------------------*/
 /*                                                                             */
 /*  Task  - compares the requested speed of each motor to the current speed    */
@@ -372,7 +370,13 @@ void PointTurn(string direction)
 	}
 	StartTask(MotorSlewRateTask);
 }
-
+void Move60inches (string direction)
+{
+ResetEncoders();
+nMotorEncoderTarget[motorL]=ENCODER_TICKS_INCH;
+nMotorEncoderTarget[motorR]=ENCODER_TICKS_INCH;
+StopMotors();
+}
 // Turn 90 degrees.
 void Turn90(string direction)
 {
@@ -386,23 +390,24 @@ motorReq[motorR] = direction == "L" ? DRIVE_SPEED : -DRIVE_SPEED;
 
 task main()
 {
-	StartTask(MotorSlewRateTask);
+	//StartTask(MotorSlewRateTask);
 	wait10Msec(100);
 	//Test Function Here
+		 GoInches(60,50);
 	//MoveServo();
 	//Turn90(Right);
 	//PointTurn(Left);
 	//DriveSquareTest();
-	DriveSquarePoint(Right);
+	//DriveSquarePoint(Right);
 	//LookForBeacon();
 	//driveMotors(20, 20);
 	StopMotors();
-	StopTask(MotorSlewRateTask);
+	//StopTask(MotorSlewRateTask);
 	//motor[motorL] = 0;
 	//motor[motorR] = 0;
 	while(true)
-	{
-	}
+{
+}
 	// Wait for FCS to stop us
 	//EndOfMatch();
 }
