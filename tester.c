@@ -395,7 +395,8 @@ task main()
 	//Test Function Here
 		 GoInches(60,50);
 	//MoveServo();
-	//Turn90(Right);
+	Turn90(Left);
+	GoInches(10,99);
 	//PointTurn(Left);
 	//DriveSquareTest();
 	//DriveSquarePoint(Right);
