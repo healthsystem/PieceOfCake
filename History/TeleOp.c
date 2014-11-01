@@ -142,61 +142,8 @@ void initializeRobot()
 	return;
 }
 
-void moveLift()
-{
-	int liftPos = joy1Btn(5);
-	int liftNeg = joy1Btn(7);
 
-		if ((liftPos + liftNeg) == 0)
-	{
-		motor[motorLift] = 0;
-		return;
-	}
 
-	if (liftPos == 1)
-	{
-		motor[motorLift] = MOTOR_LP;
-	}
-
-	if (liftNeg == 1)
-	{
-		motor[motorLift] = MOTOR_LN;
-	}
-}
-
-void moveWinch()
-{
-	int turnPos = joy1Btn(6);
-	int turnNeg = joy1Btn(8);
-
-		if ((turnPos + turnNeg) == 0)
-	{
-		motor[motorW1] = 0;
-		motor[motorW2] = 0;
-		return;
-	}
-
-	if (turnPos == 1)
-	{
-		motor[motorW1] = MOTOR_WP;
-		motor[motorW2] = MOTOR_WP;
-	}
-
-	if (turnNeg == 1)
-	{
-		motor[motorW1] = MOTOR_WN;
-		motor[motorW2] = MOTOR_WN;
-	}
-}
-
-void raiseFlag()
-{
-	if(joystick.joy2_TopHat == 0)
-	{
-		motor[motorF] = MOTOR_F;
-
-	}
-}
 
 void driveMotors()
 {
@@ -298,8 +245,6 @@ task main()
 		// Drive Motors
 		driveMotors();
 		// Move the lift
-		moveLift();
-		//Move the winch
-		moveWinch();
+
 	}
 }
