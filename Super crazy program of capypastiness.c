@@ -7,9 +7,28 @@
 #pragma config(Motor,  mtr_S1_C1_1,     motorR,        tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     motorL,        tmotorTetrix, PIDControl, reversed, encoder)
 
+#include "rdpartyrobotcdr-3.3.1\drivers\hitechnic-irseeker-v2.h"
+
 #define MOTOR_NUM          5
+#define ENCODER_TICKS_INCH 100
+
 int motorReq[ MOTOR_NUM ];
 void GoInches(float inches, int speed);
+void ResetEncoders();
+
+int convert(float inches)
+{
+	return (int)(inches * ENCODER_TICKS_INCH);
+}
+
+
+void ResetEncoders()
+{
+	nMotorEncoder[motorL] = 0;
+	nMotorEncoder[motorR] = 0;
+	wait10Msec(30);
+}
+
 
 void GoInches(float inches, int speed)
 {
@@ -19,8 +38,8 @@ void GoInches(float inches, int speed)
 	motorReq[motorR] = speed;
 	motor[motorL] = speed;
 	motor[motorR] = speed;
-	while ((abs(nMotorEncoder[motorR]) + abs(nMotorEncoder[motorL])) / 2 < (convert(inches)))
-	}
+	while  ((abs(nMotorEncoder[motorR]) + abs(nMotorEncoder[motorL])) / 2 < (convert(inches))){}
+}
 
 task main()
 
