@@ -8,6 +8,7 @@
 #pragma config(Motor,  mtr_S1_C1_2,     motorL,        tmotorTetrix, PIDControl, reversed, encoder)
 
 #include "rdpartyrobotcdr-3.3.1\drivers\hitechnic-irseeker-v2.h"
+//#include "JoystickDriver.c"
 
 #define MOTOR_NUM          5
 #define ENCODER_TICKS_INCH 100
@@ -40,6 +41,7 @@ void GoInches(float inches, int speed)
 	motor[motorR] = speed;
 	while  ((abs(nMotorEncoder[motorR]) + abs(nMotorEncoder[motorL])) / 2 < (convert(inches))){}
 }
+//waitForStart();
 
 task main()
 
@@ -48,5 +50,6 @@ wait1Msec(3000);
 GoInches(50, 50);
 wait1Msec(10000);
 
-//waitForStart;
+//EndOfMatch();
+
 }
