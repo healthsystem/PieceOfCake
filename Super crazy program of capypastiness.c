@@ -12,6 +12,13 @@
 
 #define MOTOR_NUM          5
 #define ENCODER_TICKS_INCH 100
+#define DRIVE_SPEED 60
+
+int turnTime = 84; // Time (ms) to complete 90 degree turn.
+string Left = "L";
+string Right = "R";
+// This variable is set by the MoveToIR function (It knows where the beacon is located).
+string beaconDirection = "L"; // Which side of the robot is the beacon on
 
 int motorReq[ MOTOR_NUM ];
 void GoInches(float inches, int speed);
@@ -22,6 +29,28 @@ int convert(float inches)
 	return (int)(inches * ENCODER_TICKS_INCH);
 }
 
+void driveMotors(int lspeed, int rspeed)
+{
+	motorReq[motorL] = lspeed;
+	motorReq[motorR] = rspeed;
+}
+
+void StopMotors()
+{
+	driveMotors(0,0);
+	wait10Msec(20);
+}
+
+// Turn 90 degrees.
+void Turn90(char* direction)
+{
+	// Adjust the requested direction to reflect the actual location of the beacon.
+	direction = beaconDirection == direction ? "L" : "R";
+	motorReq[motorL] = direction == "L" ? -DRIVE_SPEED : DRIVE_SPEED;
+	motorReq[motorR] = direction == "L" ? DRIVE_SPEED : -DRIVE_SPEED;
+	wait10Msec(turnTime);
+	StopMotors();
+}
 
 void ResetEncoders()
 {
@@ -29,7 +58,6 @@ void ResetEncoders()
 	nMotorEncoder[motorR] = 0;
 	wait10Msec(30);
 }
-
 
 void GoInches(float inches, int speed)
 {
@@ -48,6 +76,7 @@ task main()
 {
 wait1Msec(3000);
 GoInches(50, 50);
+Turn90(Left);
 wait1Msec(10000);
 
 //EndOfMatch();
