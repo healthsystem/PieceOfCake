@@ -11,7 +11,7 @@
 //#include "JoystickDriver.c"
 
 #define MOTOR_NUM          5
-#define ENCODER_TICKS_INCH 100
+#define ENCODER_TICKS_INCH 102
 
 int motorReq[ MOTOR_NUM ];
 void GoInches(float inches, int speed);
@@ -30,6 +30,17 @@ void ResetEncoders()
 	wait10Msec(30);
 }
 
+void Turn90(string direction)
+{
+	// Adjust the requested direction to reflect the actual location of the beacon.
+	//direction = beaconDirection == direction ? "L" : "R";
+	motorReq[motorL] = direction == "L" ? -50 :50;
+	motorReq[motorR] = direction == "L" ? 50 : -50;
+	wait10Msec(100);
+	StopMotors();
+}
+
+
 
 void GoInches(float inches, int speed)
 {
@@ -47,8 +58,13 @@ task main()
 
 {
 wait1Msec(3000);
-GoInches(50, 50);
-wait1Msec(10000);
+GoInches(12, 50);
+
+Turn90("L");
+	motor[motorL] = 0;
+	motor[motorR] = 0;
+
+wait1Msec(1000);
 
 //EndOfMatch();
 
