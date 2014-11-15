@@ -209,7 +209,7 @@ task main()
 {
 	initializeRobot();
 
-	waitForStart();   // wait for start of tele-op phase
+	waitForStart();   // wait for start of tele-op phase //Should we comment this out?
 
 	StartTask(MotorSlewRateTask);
 
