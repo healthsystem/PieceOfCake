@@ -11,10 +11,10 @@
 //#include "JoystickDriver.c"
 
 #define MOTOR_NUM          5
-<<<<<<< HEAD
+
 #define ENCODER_TICKS_INCH 102
-=======
-#define ENCODER_TICKS_INCH 100
+
+
 #define DRIVE_SPEED 60
 
 int turnTime = 84; // Time (ms) to complete 90 degree turn.
@@ -22,7 +22,7 @@ string Left = "L";
 string Right = "R";
 // This variable is set by the MoveToIR function (It knows where the beacon is located).
 string beaconDirection = "L"; // Which side of the robot is the beacon on
->>>>>>> origin/master
+
 
 int motorReq[ MOTOR_NUM ];
 void GoInches(float inches, int speed);
@@ -63,7 +63,7 @@ void ResetEncoders()
 	wait10Msec(30);
 }
 
-<<<<<<< HEAD
+
 void Turn90(string direction)
 {
 	// Adjust the requested direction to reflect the actual location of the beacon.
@@ -76,8 +76,7 @@ void Turn90(string direction)
 
 
 
-=======
->>>>>>> origin/master
+
 void GoInches(float inches, int speed)
 {
 	ResetEncoders();
@@ -94,7 +93,7 @@ task main()
 
 {
 wait1Msec(3000);
-<<<<<<< HEAD
+
 GoInches(12, 50);
 
 Turn90("L");
@@ -102,11 +101,11 @@ Turn90("L");
 	motor[motorR] = 0;
 
 wait1Msec(1000);
-=======
+
 GoInches(50, 50);
 Turn90(Left);
 wait1Msec(10000);
->>>>>>> origin/master
+
 
 //EndOfMatch();
 
