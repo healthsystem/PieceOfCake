@@ -11,10 +11,7 @@
 //#include "JoystickDriver.c"
 
 #define MOTOR_NUM          5
-
 #define ENCODER_TICKS_INCH 102
-
-
 #define DRIVE_SPEED 60
 
 int turnTime = 84; // Time (ms) to complete 90 degree turn.
