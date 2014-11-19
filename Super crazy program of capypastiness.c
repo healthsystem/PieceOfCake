@@ -71,7 +71,7 @@ void GoInches(float inches, int speed)
 task main()
 
 {
-wait1Msec(3000);
+wait1Msec(1500);
 GoInches(12, 50);
 wait1Msec(1000);
 
