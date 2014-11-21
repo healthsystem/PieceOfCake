@@ -5,12 +5,12 @@
 #pragma config(Motor,  motorC,           ,             tmotorNXT, openLoop)
 #pragma config(Motor,  mtr_S1_C1_1,     motorR,        tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C1_2,     motorL,        tmotorTetrix, openLoop, reversed)
-#pragma config(Motor,  mtr_S1_C2_1,     motorLift,     tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C2_1,     motorscoop,    tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C2_2,     motorW1,       tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C4_1,     motorW2,       tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C4_2,     motorF,        tmotorTetrix, openLoop)
-#pragma config(Servo,  srvo_S1_C3_1,    servo1,               tServoNone)
-#pragma config(Servo,  srvo_S1_C3_2,    servo2,               tServoNone)
+#pragma config(Servo,  srvo_S1_C3_1,    servo1,               tServoStandard)
+#pragma config(Servo,  srvo_S1_C3_2,    servo2,               tServoStandard)
 #pragma config(Servo,  srvo_S1_C3_3,    servo3,               tServoNone)
 #pragma config(Servo,  srvo_S1_C3_4,    servo4,               tServoNone)
 #pragma config(Servo,  srvo_S1_C3_5,    servo5,               tServoNone)
@@ -38,7 +38,8 @@ int MOTOR_LN = -MOTOR_LP;
 int MOTOR_WP = 75;
 int MOTOR_WN = -MOTOR_WP;
 int MOTOR_F = 50;
-
+int servoUp = 63;
+int servoDown = 0;
 
 /*-----------------------------------------------------------------------------*/
 /*                                                                             */
@@ -139,11 +140,46 @@ void initializeRobot()
 	SensorType[S2] = sensorNone;
 	SensorType[S3] = sensorNone;
 	SensorType[S4] = sensorNone;
+	servo[servo1]=0;
+	servo[servo2]=0;
 	return;
 }
 
+void shovelthingy()
+{
 
+	getJoystickSettings(joystick);
+	if (joy1Btn(1) ==1)
+	{
+		motor[motorscoop]=75;
+	}
+	else
+	{
+		motor[motorscoop] = 0;
+	}
 
+	if (joy1Btn(3) == 1)
+	{
+		motor[motorscoop]=-75;
+	}
+}
+
+void servothingy()
+{
+	getJoystickSettings(joystick);
+
+	if (joy1Btn(0))
+	{
+		servo[servo1]=servoUp;
+		servo[servo2]=servoUp;
+	}
+	else if (joy1Btn(2))
+	{
+		servo[servo1]= servoDown;
+		servo[servo2]= servoDown;
+	}
+
+}
 
 void driveMotors()
 {
