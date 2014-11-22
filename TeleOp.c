@@ -195,7 +195,7 @@ void driveMotors()
 		if (abs(joyLeft) < 80)
 		{
 			if (joyLeft > 0)
-				joyLeft = 1*pow(1+.056,joyLeft);
+				joyLeft = 1*pow(1+.056,joyLeft);// reverse (1+.056,joyLeft) to produce more gentle curve
 			else
 				joyLeft = -1*pow(1+.056,abs(joyLeft));
 		}

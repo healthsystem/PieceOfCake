@@ -106,7 +106,7 @@ void Turn90(string direction)
 	// Adjust the requested direction to reflect the actual location of the beacon.
 	//direction = beaconDirection == direction ? "L" : "R";
 	motorReq[motorL] = direction == "L" ? -50 :50;
-	motorReq[motorR] = direction == "R" ? 50 : -50;
+	motorReq[motorR] = direction == "L" ? 50 : -50;
 	wait10Msec(100);
 	StopMotors();
 }
