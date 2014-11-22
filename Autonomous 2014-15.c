@@ -13,14 +13,69 @@
 #define MOTOR_NUM          5
 #define ENCODER_TICKS_INCH 102
 #define DRIVE_SPEED 60
+#define MOTOR_DEFAULT_SLEW_RATE 5      // Default will cause 375mS from full fwd to rev
+#define MOTOR_FAST_SLEW_RATE    256
+#define MOTOR_TASK_DELAY        15      // task 1/frequency in mS (about 66Hz)
 
 string Left = "L";
 string Right = "R";
 
-
+int motorSlew[ MOTOR_NUM ];
 int motorReq[ MOTOR_NUM ];
 void GoInches(float inches, int speed);
 void ResetEncoders();
+
+task MotorSlewRateTask()
+{
+	int motorIndex;
+	int motorTmp;
+
+	// Initialize stuff
+	for(motorIndex=0;motorIndex<MOTOR_NUM;motorIndex++)
+	{
+		motorReq[motorIndex] = 0;
+		motorSlew[motorIndex] = MOTOR_DEFAULT_SLEW_RATE;
+	}
+
+	// run task until stopped
+	while( true )
+	{
+		// run loop for every motor
+		for( motorIndex=0; motorIndex<MOTOR_NUM; motorIndex++)
+		{
+			// So we don't keep accessing the internal storage
+			motorTmp = motor[ motorIndex ];
+
+			// Do we need to change the motor value ?
+			if( motorTmp != motorReq[motorIndex] )
+			{
+				// increasing motor value
+				if( motorReq[motorIndex] > motorTmp )
+				{
+					motorTmp += motorSlew[motorIndex];
+					// limit
+					if( motorTmp > motorReq[motorIndex] )
+						motorTmp = motorReq[motorIndex];
+				}
+
+				// decreasing motor value
+				if( motorReq[motorIndex] < motorTmp )
+				{
+					motorTmp -= motorSlew[motorIndex];
+					// limit
+					if( motorTmp < motorReq[motorIndex] )
+						motorTmp = motorReq[motorIndex];
+				}
+
+				// finally set motor
+				motor[motorIndex] = motorTmp;
+			}
+		}
+
+		// Wait approx the speed of motor update over the spi bus
+		wait1Msec( MOTOR_TASK_DELAY );
+	}
+}
 
 int convert(float inches)
 {
@@ -31,8 +86,8 @@ int convert(float inches)
 
 void StopMotors()
 {
-	motor[motorL]=0;
-	motor[motorR]=0;
+	motorReq[motorL]=0;
+	motorReq[motorR]=0;
 	wait10Msec(20);
 }
 
@@ -51,7 +106,7 @@ void Turn90(string direction)
 	// Adjust the requested direction to reflect the actual location of the beacon.
 	//direction = beaconDirection == direction ? "L" : "R";
 	motorReq[motorL] = direction == "L" ? -50 :50;
-	motorReq[motorR] = direction == "L" ? 50 : -50;
+	motorReq[motorR] = direction == "R" ? 50 : -50;
 	wait10Msec(100);
 	StopMotors();
 }
@@ -65,8 +120,8 @@ void GoInches(float inches, int speed)
 	wait1Msec(200);
 	motorReq[motorL] = speed;
 	motorReq[motorR] = speed;
-	motor[motorL] = speed;
-	motor[motorR] = speed;
+	//motor[motorL] = speed;
+	//motor[motorR] = speed;
 	while  ((abs(nMotorEncoder[motorR]) + abs(nMotorEncoder[motorL])) / 2 < (convert(inches))){}
 }
 //waitForStart();
@@ -74,6 +129,7 @@ void GoInches(float inches, int speed)
 task main()
 
 {
+	StartTask(MotorSlewRateTask);
 wait1Msec(1500);
 GoInches(50, 50);
 Turn90(Left);
