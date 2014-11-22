@@ -208,13 +208,13 @@ void driveMotors()
 				joyRight = -1*pow(1+.056,abs(joyRight));
 		}
 
-		motorReq[motorL] = (joyLeft)*90/127;
-		motorReq[motorR] = (joyRight)*90/127;
+		motor[motorL] = (joyLeft)*90/127;
+		motor[motorR] = (joyRight)*90/127;
 	}
 	else
 	{
-		motorReq[motorL] = 0;
-		motorReq[motorR] = 0;
+		motor[motorL] = 0;
+		motor[motorR] = 0;
 	}
 }
 
@@ -251,7 +251,7 @@ task main()
 
 	waitForStart();   // wait for start of tele-op phase
 
-	StartTask(MotorSlewRateTask);
+	//StartTask(MotorSlewRateTask);
 
 	while (true)
 	{
