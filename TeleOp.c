@@ -6,12 +6,12 @@
 #pragma config(Motor,  mtr_S1_C1_1,     motorR,        tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C1_2,     motorL,        tmotorTetrix, openLoop, reversed)
 #pragma config(Motor,  mtr_S1_C2_1,     motorscoop,    tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S1_C2_2,     motorlift,       tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C2_2,     motorlift,     tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C4_1,     motorW2,       tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C4_2,     motorF,        tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S1_C3_1,    servo1,               tServoStandard)
 #pragma config(Servo,  srvo_S1_C3_2,    servo2,               tServoStandard)
-#pragma config(Servo,  srvo_S1_C3_3,    servo3,               tServoNone)
+#pragma config(Servo,  srvo_S1_C3_3,    servo3,               tServoStandard)
 #pragma config(Servo,  srvo_S1_C3_4,    servo4,               tServoNone)
 #pragma config(Servo,  srvo_S1_C3_5,    servo5,               tServoNone)
 #pragma config(Servo,  srvo_S1_C3_6,    servo6,               tServoNone)
@@ -153,7 +153,7 @@ void shovelthingy()
 	getJoystickSettings(joystick);
 	if (joy1Btn(1) ==1)
 	{
-		motor[motorscoop]=75;
+		motor[motorscoop]=10;
 	}
 	else
 	{
@@ -162,7 +162,7 @@ void shovelthingy()
 
 	if (joy1Btn(3) == 1)
 	{
-		motor[motorscoop]=-75;
+		motor[motorscoop]=-10;
 	}
 }
 
@@ -172,11 +172,16 @@ void motorLift()
 
 	if (joy1Btn (6)==1 )//6 is left trigger
 {
-   motor[motorlift]=75
+   motor[motorlift]=75;
 }
-else if (joy1Btn (7)==1)//right trigger
+else // is if, else if, not working? Trying if, else, if
 {
-	motor[motorlift]= -75
+	motor[motorlift] = 0;
+}
+
+if (joy1Btn (7)==1)//right trigger
+{
+	motor[motorlift]= -75;
 }
 
 }
@@ -198,7 +203,6 @@ void servothingy()
 }
 
 void ballrelease()
-
 {
 	getJoystickSettings(joystick);
 
@@ -208,7 +212,7 @@ void ballrelease()
 	}
 	else if (joy1Btn (5)==1)
 		servo[servo4]= 0;
-
+}
 
 void driveMotors ()
 {
@@ -306,7 +310,9 @@ task main()
 		nxtDisplayString(3, "joy1_y2: %d  ", joystick.joy1_y2);
 		nxtDisplayString(4, "Buttons: %d  ", joystick.joy1_Buttons);
 		nxtDisplayString(5, "TopHat:  %d  ", joystick.joy1_TopHat);
-
+		ballrelease();
+		servothingy();
+		motorLift();
 		// Drive Motors
 		driveMotors();
 		// Move the lift
