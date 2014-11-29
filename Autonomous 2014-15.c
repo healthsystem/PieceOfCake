@@ -112,7 +112,13 @@ void Turn90(string direction)
 }
 
 
-
+void Turn272(string direction)
+{
+	motorReq[motorL] = direction == "L" ? -12 : 50;
+	motorReq[motorR] = direction == "L" ? 12 : -50;
+	wait10Msec(100);
+	StopMotors();
+}
 
 void GoInches(float inches, int speed)
 {
@@ -124,6 +130,31 @@ void GoInches(float inches, int speed)
 	//motor[motorR] = speed;
 	while  ((abs(nMotorEncoder[motorR]) + abs(nMotorEncoder[motorL])) / 2 < (convert(inches))){}
 }
+
+void CentrePos1()
+{
+GoInches(20,75);
+Turn90(Left);
+GoInches(13,75);
+Turn90(Right);
+GoInches(31,75);
+StopMotors();
+}
+
+void CentrePos2 ()
+
+{
+
+	GoInches(39,75);
+	Turn272(Left);
+	StopMotors();
+}
+
+void centrePos3()
+{
+
+}
+
 //waitForStart();
 
 task main()
@@ -131,8 +162,9 @@ task main()
 {
 	StartTask(MotorSlewRateTask);
 wait1Msec(1500);
-GoInches(50, 50);
+GoInches(58, 75);
 Turn90(Left);
+CentrePos2();
 wait1Msec(1000);
 
 

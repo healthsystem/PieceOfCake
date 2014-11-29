@@ -6,7 +6,7 @@
 #pragma config(Motor,  mtr_S1_C1_1,     motorR,        tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C1_2,     motorL,        tmotorTetrix, openLoop, reversed)
 #pragma config(Motor,  mtr_S1_C2_1,     motorscoop,    tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S1_C2_2,     motorW1,       tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C2_2,     motorlift,       tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C4_1,     motorW2,       tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C4_2,     motorF,        tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S1_C3_1,    servo1,               tServoStandard)
@@ -62,6 +62,8 @@ int motorReq[ MOTOR_NUM ];
 // runs checking current mootor speed.
 int motorSlew[ MOTOR_NUM ];
 
+
+void motorLift();
 /*-----------------------------------------------------------------------------*/
 /*                                                                             */
 /*  Task  - compares the requested speed of each motor to the current speed    */
@@ -164,16 +166,30 @@ void shovelthingy()
 	}
 }
 
+void motorLift()
+{
+	getJoystickSettings(joystick);
+
+	if (joy1Btn (6)==1 )//6 is left trigger
+{
+   motor[motorlift]=75
+}
+else if (joy1Btn (7)==1)//right trigger
+{
+	motor[motorlift]= -75
+}
+
+}
 void servothingy()
 {
 	getJoystickSettings(joystick);
 
-	if (joy1Btn(0))
+	if (joy1Btn(0))//button zero is x
 	{
 		servo[servo1]=servoUp;
 		servo[servo2]=servoUp;
 	}
-	else if (joy1Btn(2))
+	else if (joy1Btn(2))//button 2 is b
 	{
 		servo[servo1]= servoDown;
 		servo[servo2]= servoDown;
@@ -181,7 +197,20 @@ void servothingy()
 
 }
 
-void driveMotors()
+void ballrelease()
+
+{
+	getJoystickSettings(joystick);
+
+	if (joy1Btn(4)== 1)
+	{
+		servo[servo3]= 160;
+	}
+	else if (joy1Btn (5)==1)
+		servo[servo4]= 0;
+
+
+void driveMotors ()
 {
 	int joyLeft = joystick.joy1_y1;
 	int joyRight = joystick.joy1_y2;
