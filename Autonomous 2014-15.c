@@ -105,8 +105,8 @@ void Turn90(string direction)
 {
 	// Adjust the requested direction to reflect the actual location of the beacon.
 	//direction = beaconDirection == direction ? "L" : "R";
-	motorReq[motorL] = direction == "L" ? -50 :50;
-	motorReq[motorR] = direction == "L" ? 50 : -50;
+motorReq[motorL] = direction == "L" ? -50 :50;
+motorReq[motorR] = direction == "L" ? 50 : -50;
 	wait10Msec(100);
 	StopMotors();
 }
@@ -114,8 +114,8 @@ void Turn90(string direction)
 
 void Turn272(string direction)
 {
-	motorReq[motorL] = direction == "L" ? -12 : 50;
-	motorReq[motorR] = direction == "L" ? 12 : -50;
+motorReq[motorL] = direction == "L" ? -12 : 50;
+motorReq[motorR] = direction == "L" ? 12 : -50;
 	wait10Msec(100);
 	StopMotors();
 }
@@ -133,12 +133,12 @@ void GoInches(float inches, int speed)
 
 void CentrePos1()
 {
-GoInches(20,75);
-Turn90(Left);
-GoInches(13,75);
-Turn90(Right);
-GoInches(31,75);
-StopMotors();
+	GoInches(20,75);
+	Turn90(Left);
+	GoInches(13,75);
+	Turn90(Right);
+	GoInches(31,75);
+	StopMotors();
 }
 
 void CentrePos2 ()
@@ -155,20 +155,16 @@ void centrePos3()
 
 }
 
-//waitForStart();
 
 task main()
 
 {
+	//waitForStart();
 	StartTask(MotorSlewRateTask);
-wait1Msec(1500);
-GoInches(58, 75);
-Turn90(Left);
-CentrePos2();
-wait1Msec(1000);
-
-
-
-//EndOfMatch();
-
+	wait1Msec(1500);
+	GoInches(58, 75);
+	Turn90(Left);
+	CentrePos2();
+	wait1Msec(1000);
+	//EndOfMatch();
 }

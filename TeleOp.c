@@ -171,18 +171,18 @@ void motorLift()
 	getJoystickSettings(joystick);
 
 	if (joy1Btn (6)==1 )//6 is left trigger
-{
-   motor[motorlift]=75;
-}
-else // is if, else if, not working? Trying if, else, if
-{
-	motor[motorlift] = 0;
-}
+	{
+		motor[motorlift]=75;
+	}
+	else // is if, else if, not working? Trying if, else, if
+	{
+		motor[motorlift] = 0;
+	}
 
-if (joy1Btn (7)==1)//right trigger
-{
-	motor[motorlift]= -75;
-}
+	if (joy1Btn (7)==1)//right trigger
+	{
+		motor[motorlift]= -75;
+	}
 
 }
 void servothingy()
@@ -316,6 +316,5 @@ task main()
 		// Drive Motors
 		driveMotors();
 		// Move the lift
-
 	}
 }
