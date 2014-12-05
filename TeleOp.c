@@ -63,7 +63,7 @@ int motorReq[ MOTOR_NUM ];
 int motorSlew[ MOTOR_NUM ];
 
 
-void motorLift();
+
 /*-----------------------------------------------------------------------------*/
 /*                                                                             */
 /*  Task  - compares the requested speed of each motor to the current speed    */
@@ -151,53 +151,52 @@ void shovelthingy()
 {
 
 	getJoystickSettings(joystick);
-	if (joy1Btn(1) ==1)
+
+	if (joy1Btn(1) == 1)
 	{
-		motor[motorscoop]=10;
+		motor[motorscoop]=1;
+	}
+	else if (joy1Btn(3) == 10)
+	{
+		motor[motorscoop] = -10;
 	}
 	else
 	{
-		motor[motorscoop] = 0;
-	}
-
-	if (joy1Btn(3) == 1)
-	{
-		motor[motorscoop]=-10;
+		motor[motorscoop]=0;
 	}
 }
 
-void motorLift()
+void scissorLift()
 {
 	getJoystickSettings(joystick);
 
-	if (joy1Btn (6)==1 )//6 is left trigger
+	if (joy1Btn (6) == 1 )//6 is left trigger
 	{
-		motor[motorlift]=75;
+		motor[motorlift] = 75;
 	}
-	else // is if, else if, not working? Trying if, else, if
+	else if (joy1Btn (7) == 1) // is if, else if, not working? Trying if, else, if
 	{
-		motor[motorlift] = 0;
+		motor[motorlift] = -75;
 	}
-
-	if (joy1Btn (7)==1)//right trigger
+	else //right trigger
 	{
-		motor[motorlift]= -75;
+		motor[motorlift]= 0;
 	}
-
 }
+
 void servothingy()
 {
 	getJoystickSettings(joystick);
 
 	if (joy1Btn(0))//button zero is x
 	{
-		servo[servo1]=servoUp;
-		servo[servo2]=servoUp;
+		servo[servo1] = servoUp;
+		//servo[servo2] = servoUp;
 	}
 	else if (joy1Btn(2))//button 2 is b
 	{
-		servo[servo1]= servoDown;
-		servo[servo2]= servoDown;
+		servo[servo1] = servoDown;
+	//servo[servo2] = servoDown;
 	}
 
 }
@@ -206,12 +205,15 @@ void ballrelease()
 {
 	getJoystickSettings(joystick);
 
-	if (joy1Btn(4)== 1)
+	if (joy1Btn(4))
 	{
-		servo[servo3]= 160;
+		servo[servo3] = 127;
 	}
-	else if (joy1Btn (5)==1)
-		servo[servo4]= 0;
+	else
+	{
+		servo[servo3] = 0;
+	}
+
 }
 
 void driveMotors ()
@@ -312,7 +314,9 @@ task main()
 		nxtDisplayString(5, "TopHat:  %d  ", joystick.joy1_TopHat);
 		ballrelease();
 		servothingy();
-		motorLift();
+
+		scissorLift();
+		shovelthingy();
 		// Drive Motors
 		driveMotors();
 		// Move the lift
