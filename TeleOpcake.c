@@ -164,7 +164,7 @@ void shovelthingy()
 	{
 		motor[motorscoop]=1;
 	}
-	else if (joy1Btn(3) == 10)
+	else if (joy1Btn(4) == 1)
 	{
 		motor[motorscoop] = -10;
 	}
@@ -196,12 +196,12 @@ void servothingy()
 {
 	getJoystickSettings(joystick);
 
-	if (joy1Btn(0))//button zero is x
+	if (joy1Btn(2))//button zero is A
 	{
 		servo[servo1] = servoUp;
 		//servo[servo2] = servoUp;
 	}
-	else if (joy1Btn(2))//button 2 is b
+	else if (joy1Btn(8))//button 2 is Y
 	{
 		servo[servo1] = servoDown;
 	//servo[servo2] = servoDown;
