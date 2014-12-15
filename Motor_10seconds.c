@@ -71,12 +71,11 @@ void initializeRobot()
 //reverse motors in pragma statement
 task main()
 {
+	wait1msec(10000);
   initializeRobot();
    motor[mtr_S1_C1_1]=95; //motors must have opposite values to run forward-Naturally turning in opposite directions
   motor[mtr_S1_C1_2]=100;
   wait1Msec(3000);
-  motor[mtr_S1_C1_1]=100;//left side-motorL
-  motor[mtr_S1_C1_2]=0;//right side-motorR
   wait1Msec(100);
 }
 

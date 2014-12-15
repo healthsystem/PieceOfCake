@@ -8,7 +8,7 @@
 #pragma config(Motor,  mtr_S1_C1_2,     motorL,        tmotorTetrix, PIDControl, reversed, encoder)
 
 #include "rdpartyrobotcdr-3.3.1\drivers\hitechnic-irseeker-v2.h"
-//#include "JoystickDriver.c"
+#include "JoystickDriver.c"
 
 #define MOTOR_NUM          5
 #define ENCODER_TICKS_INCH 102
@@ -159,9 +159,9 @@ void centrePos3()
 task main()
 
 {
-	//waitForStart();
+	waitForStart();
 	StartTask(MotorSlewRateTask);
-	wait1Msec(1500);
+	//wait1Msec(15000);
 	GoInches(58, 75);
 	Turn90(Left);
 	CentrePos2();
